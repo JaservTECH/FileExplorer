@@ -2,7 +2,7 @@
 namespace JFileExplorer;
 /*
 Declare By      : Jafar Abdurrahman Albasyir
-Email           : jafarabdurrahmanalabsyir@gmail.com
+Email           : jafarabdurrahmanal-basyir@hotmail.com
 Description     : Main class to execute the whole system file
 */
 class Exe 
