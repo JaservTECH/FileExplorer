@@ -15,12 +15,12 @@
         {
             "name"          : "Jafar Abdurrahman Albasyir",
             "email"         : "jafarabdurrahmanal-basyir@hotmmail.com",
-            "homepage"      : "me.guahira.my.id",
+            "homepage"      : "https://me.guahira.my.id",
             "role"          : "Developer"
         }
     ],
     "autoload"          : {
-        "psr-7"             : {
+        "psr-4"             : {
             "JFileExplorer\\"   : "src/"
         }
     },
