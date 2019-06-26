@@ -1,6 +1,6 @@
 	
 {
-    "name"              : "JaservTECH/JFileExplorer",
+    "name"              : "jaservtech/j-file-explorer",
     "description"       : "Internal file control on PHP",
     "homepage"          : "https://github.com/JaservTECH/JFileExplorer",
     "type"              : "library",
