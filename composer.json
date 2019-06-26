@@ -1,0 +1,22 @@
+	
+{
+    "name": "JFileExplorer",
+    "description": "Internal file control on PHP",
+    "homepage": "https://github.com/JaservTECH/JFileExplorer",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jafar Abdurrahman Albasyir",
+            "email": "jafarabdurrahmanalbasyir@gmail.com",
+            "homepage": "me.guahira.my.id",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-7": {
+            "JFileExplorer\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
