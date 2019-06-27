@@ -1,0 +1,5 @@
+{
+    "require": {
+        "jaservtech/j-file-explorer" : "dev-master"
+    }
+}
