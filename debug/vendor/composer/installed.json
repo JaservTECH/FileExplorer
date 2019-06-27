@@ -1,0 +1,43 @@
+[
+    {
+        "name": "jaservtech/j-file-explorer",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/JaservTECH/JFileExplorer.git",
+            "reference": "458140a7edeb6f1aa8a9c1c397d27303ea06ef6d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/JaservTECH/JFileExplorer/zipball/458140a7edeb6f1aa8a9c1c397d27303ea06ef6d",
+            "reference": "458140a7edeb6f1aa8a9c1c397d27303ea06ef6d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.2.0"
+        },
+        "time": "2019-06-27T02:02:13+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "JFileExplorer\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jafar Abdurrahman Albasyir",
+                "email": "jafarabdurrahmanal-basyir@hotmmail.com",
+                "homepage": "https://me.guahira.my.id",
+                "role": "Developer"
+            }
+        ],
+        "description": "Internal file control on PHP",
+        "homepage": "https://github.com/JaservTECH/JFileExplorer"
+    }
+]
