@@ -8,8 +8,8 @@ Description     : Main class to execute the whole system file
 class Exe 
 {
     //=====>define variable
-    private static $Obj = null;                         //private variable instance of class
-    
+    private static $Obj         = null;                         //private variable instance of class
+    private $Configuration      = null;
     //=====>define methode
     /*
     disable free instance
@@ -17,7 +17,11 @@ class Exe
     */
     private function __CONSTRUCT()
     {
-
+        $this->Configuration    = (Object)[
+            "Root"          => (Object)[
+                "Directory"         => __DIR__."../JFileExplorer"
+            ]
+        ];
     }
 
     private function __CLONE()
@@ -35,9 +39,19 @@ class Exe
     {
         if( self::$Obj === null){
             self::$Obj = new Exe();
+            self::$Obj->Initial();
         }
         return self::$Obj;
     }
+
+    private function Initial()
+    {
+        if( !is_dir( $this->Root ) )
+        {
+            mkdir( $this->Root );
+        }
+    }
+
     public function test()
     {
         return "hello";

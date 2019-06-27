@@ -1,3 +1,3 @@
 <?php
-require_once __DIR__."vendor/autoload.php";
-echo JFileExplorer::Obj()->test();
+require_once __DIR__."/vendor/autoload.php";
+echo JFileExplorer\Exe::Obj()->test();
