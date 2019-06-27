@@ -19,7 +19,7 @@ class Exe
     {
         $this->Configuration    = (Object)[
             "Root"          => (Object)[
-                "Directory"         => __DIR__."../JFileExplorer"
+                "Directory"         => __DIR__."../../JFileExplorer"
             ]
         ];
     }
