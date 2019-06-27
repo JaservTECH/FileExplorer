@@ -1,5 +1,6 @@
 <?php
 namespace JFileExplorer;
+use Exception;
 /*
 Declare By      : Jafar Abdurrahman Albasyir
 Email           : jafarabdurrahmanal-basyir@hotmail.com
@@ -18,8 +19,9 @@ class Exe
     private function __CONSTRUCT()
     {
         $this->Configuration    = (Object)[
-            "Root"          => (Object)[
-                "Directory"         => __DIR__."../../JFileExplorer"
+            "Directory"             => (Object)[
+                "Root"                  => __DIR__."../../JFileExplorer",
+                "Space"                  => "",
             ]
         ];
     }
@@ -46,9 +48,9 @@ class Exe
 
     private function Initial()
     {
-        if( !is_dir( $this->Configuration->Root->Directory ) && !file_exists( $this->Configuration->Root->Directory ) )
+        if( !is_dir( $this->Configuration->Directory->Root ) && !file_exists( $this->Configuration->Directory->Root ) )
         {
-            mkdir( $this->Configuration->Root->Directory );
+            mkdir( $this->Configuration->Directory->Root );
         }
     }
 
@@ -62,12 +64,35 @@ class Exe
         //bussiness logic
         switch( $target )
         {
-            case "ConfRootDir"          : $this->Configuration->Root->Directory = $value; break;
+            case "ConfRootDir"          : $this->Configuration->Directory->Root = $value; break;
         }
     }
     public function test()
     {
         return "hello";
+    }
+    private function CheckSession()
+    {
+        if( $this->Configuration->Directory->Space == "" ) return;
+        if( !is_string( $this->Configuration->Directory->Space ) ) throw new Exception\Space("You inserted space not as a string", 1);
+        if( $this->Configuration->Directory->Space[0] != "/" && $this->Configuration->Directory->Space[0] != "\\" ) throw new Exception\Space("your string name of space must have symbol '\\' or '/' as postfix on space name exp:'/spaceone' ", 1);
+        
+        if( !is_dir( $this->Configuration->Directory->Root.$this->Configuration->Directory->Space ) && !file_exists( $this->Configuration->Directory->Root.$this->Configuration->Directory->Space ) )
+        {
+            mkdir( $this->Configuration->Directory->Root.$this->Configuration->Directory->Space );
+        }
+    }
+
+    public function AddFile( $path , $source )
+    {  
+       try
+       {
+            $this->CheckSession();
+       }
+       catch( Exception\Space $err )
+       {
+           //error on space
+       }
     }
 }
 ?>
