@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/JaservTECH/JFileExplorer.git",
-                "reference": "2885ad9959a20f2ba53394df05ced6f1edcfba47"
+                "reference": "11d17d41e087d439dcef02114305deb2203e87d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JaservTECH/JFileExplorer/zipball/2885ad9959a20f2ba53394df05ced6f1edcfba47",
-                "reference": "2885ad9959a20f2ba53394df05ced6f1edcfba47",
+                "url": "https://api.github.com/repos/JaservTECH/JFileExplorer/zipball/11d17d41e087d439dcef02114305deb2203e87d1",
+                "reference": "11d17d41e087d439dcef02114305deb2203e87d1",
                 "shasum": ""
             },
             "require": {
@@ -43,7 +43,7 @@
             ],
             "description": "Internal file control on PHP",
             "homepage": "https://github.com/JaservTECH/JFileExplorer",
-            "time": "2019-06-27T02:24:44+00:00"
+            "time": "2019-06-27T02:35:42+00:00"
         }
     ],
     "packages-dev": [],

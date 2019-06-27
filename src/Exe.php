@@ -46,9 +46,9 @@ class Exe
 
     private function Initial()
     {
-        if( !is_dir( $this->Root ) )
+        if( !is_dir( $this->Configuration->Root->Directory ) )
         {
-            mkdir( $this->Root );
+            mkdir( $this->Configuration->Root->Directory );
         }
     }
 
