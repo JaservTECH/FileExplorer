@@ -46,7 +46,7 @@ class Exe
 
     private function Initial()
     {
-        if( !is_dir( $this->Configuration->Root->Directory ) )
+        if( !is_dir( $this->Configuration->Root->Directory ) && !file_exists( $this->Configuration->Root->Directory ) )
         {
             mkdir( $this->Configuration->Root->Directory );
         }
