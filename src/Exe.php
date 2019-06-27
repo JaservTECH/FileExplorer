@@ -52,6 +52,19 @@ class Exe
         }
     }
 
+    public function Set( $target = null , $value = null )
+    {
+        //filter param
+        if( !is_string( $target ) ) 
+            return false;
+        if( !is_string( $value ) ) 
+            return false;
+        //bussiness logic
+        switch( $target )
+        {
+            case "ConfRootDir"          : $this->Configuration->Root->Directory = $value; break;
+        }
+    }
     public function test()
     {
         return "hello";
