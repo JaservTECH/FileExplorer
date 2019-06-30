@@ -10,7 +10,7 @@ class Exe
 {
     //define trait
     //make singleton
-    use Engine\Trait\Singleton;
+    use Engine\Traits\Singleton;
     //=====>define variable
     private $Configuration      = null;
     //=====>define methode
