@@ -1,7 +1,7 @@
 <?php
 namespace JFileExplorer;
-use Exception;
-use Engine;
+use JFileExplorer\Exception;
+use JFileExplorer\Engine;
 /*
 Declare By      : Jafar Abdurrahman Albasyir
 Email           : jafarabdurrahmanal-basyir@hotmail.com
