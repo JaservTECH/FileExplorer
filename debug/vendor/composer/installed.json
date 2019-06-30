@@ -6,18 +6,18 @@
         "source": {
             "type": "git",
             "url": "https://github.com/JaservTECH/JFileExplorer.git",
-            "reference": "b80948bc77a7855f947e4f9224360d8fc8db9d49"
+            "reference": "034d028dbd94c6610133282d356f9cc6143b4d15"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/JaservTECH/JFileExplorer/zipball/b80948bc77a7855f947e4f9224360d8fc8db9d49",
-            "reference": "b80948bc77a7855f947e4f9224360d8fc8db9d49",
+            "url": "https://api.github.com/repos/JaservTECH/JFileExplorer/zipball/034d028dbd94c6610133282d356f9cc6143b4d15",
+            "reference": "034d028dbd94c6610133282d356f9cc6143b4d15",
             "shasum": ""
         },
         "require": {
             "php": ">=7.2.0"
         },
-        "time": "2019-06-30T10:05:46+00:00",
+        "time": "2019-06-30T13:47:49+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {

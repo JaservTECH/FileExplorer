@@ -90,6 +90,7 @@ class MimeType {
     public function IsTypeInTheList( $type = null)
     {
         if( is_null( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type belum dimasukan" ] ), 1);
+        if( !is_string( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type harus berupa string" ] ), 1);
         if( array_key_exists( $type , $this->library ) ) return true;
         foreach( $this->library as $value )
         {
@@ -99,7 +100,32 @@ class MimeType {
         }
         return false;
     }
-
+    /*
+        Function        : IsContainType 
+        Description     :
+        Input           : <string>
+        Output          : 
+        =>true              ::: Type file
+        =>false             ::: false <boolean>
+        =>param trouble     ::: Throw error
+    */
+    public function IsContainType( $nameFile = null )
+    {
+        if( is_null( $nameFile ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Nama file belum dimasukan" ] ), 1);
+        if( !is_string( $nameFile ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Nama file harus berupa string" ] ), 1);
+        $nameFile = explode(".", $nameFile);
+        if( \count($nameFile) < 2) return false;
+        return ".".$nameFile[\count($nameFile) - 1];
+    }
+    public function GetTypeTranslateFormat( $type = null )
+    {
+        if( is_null( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type belum dimasukan" ] ), 1);
+        if( !is_string( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type harus berupa string" ] ), 1);
+        if( !array_key_exists( $type , $this->library ) ) return false;
+        $cache = $this->library[ $type ];
+        //return last index of format that type contain or have
+        return $cache[ \count($cache) -1 ]; 
+    }
 }
 
 ?>

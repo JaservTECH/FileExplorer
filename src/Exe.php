@@ -71,16 +71,43 @@ class Exe
             mkdir( $this->Configuration->Directory->Root.$this->Configuration->Directory->Space );
         }
     }
+    private function BuildConfigurationAddFile( $config )
+    {
+        //set default config, to protect from error config
+        $configFinal = (object)[
+            "path"          => "", //make set in active root and active space
+            "source"        => null,
+            "name"          => null,
+            "overwrite"     => false
+        ];
 
-    public function AddFile( $path = null , $source , $overwrite = false )
+        if( is_array( $config ) )
+        {
+            $filter = function( &$targetSave , $array , $key )
+            {
+                if( !array_key_exists( $key , $array ) ) return;
+                //if( !is_string( $array[ $key ] ) ) return;
+                //if( $array[ $key ] == "" || $array[ $key ] == " " ) return;
+                $targetSave = $array[ $key ];
+            };
+            $filter( $configFinal->path , $config , "path" );
+            $filter( $configFinal->source , $config , "source" );
+            $filter( $configFinal->name , $config , "name" );
+            $filter( $configFinal->overwrite , $config , "overwrite" );
+        }
+        return $configFinal;
+    }
+    public function AddFile( $config ) //$path = null , $source , $name = null, $overwrite = false
     {  
-        $target_dir = $this->Configuration->Directory->Root.$this->Configuration->Directory->Space.$path;
+        //buiding config
+        $config = $this->BuildConfigurationAddFile( $config );
+        $target_dir = $this->Configuration->Directory->Root.$this->Configuration->Directory->Space.$config->path;
         $File = null;
-
+        
         try
         {
             $this->CheckSession();
-            $File = Engine\Files::Obj()->GetDetailFileUpload( $source );
+            $File = Engine\Files::Obj()->GetDetailFileUpload( $config->source );
         }
         catch( Exception\SpaceException $err )
         {
@@ -94,7 +121,18 @@ class Exe
         }
         //uploading
        
-
+        $targetName = $File->name;
+        if( !is_null( $config->name ) )
+        {
+            $tempType = Engine\MimeType::Obj()->IsContainType( $config->name );
+            if( $tempType )
+                $targetName = $config->name;
+            else{
+                $tempType = Engine\MimeType::Obj()->GetTypeTranslateFormat( $File->type );
+                if( $tempType )
+                    $targetName = $config->name.$tempType;
+            }
+        }
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
