@@ -8,8 +8,10 @@ Description     : Main class to execute the whole system file
 */
 class Exe 
 {
+    //define trait
+    //make singleton
+    use Engine\Trait\Singleton;
     //=====>define variable
-    private static $Obj         = null;                         //private variable instance of class
     private $Configuration      = null;
     //=====>define methode
     /*
@@ -24,27 +26,11 @@ class Exe
                 "Space"                 => "",
             ]
         ];
+        //building default configuration
+        $this->Initial();
     }
 
-    private function __CLONE()
-    {
-
-    }
-
-    private function __WAKEUP()
-    {
-
-    }
-
-    //function gateway to get the instance class
-    public static function Obj()
-    {
-        if( self::$Obj === null){
-            self::$Obj = new self();
-            self::$Obj->Initial();
-        }
-        return self::$Obj;
-    }
+    
 
     private function Initial()
     {
