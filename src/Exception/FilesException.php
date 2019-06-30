@@ -1,6 +1,6 @@
 <?php
 namespace JFileExplorer\Exception;
-class FileException extends \Exception{
+class FilesException extends \Exception{
     public function errorMessage()
     {
         //error message
