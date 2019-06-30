@@ -1,7 +1,9 @@
 <?php
 namespace JFileExplorer;
-use JFileExplorer\Exception;
-use JFileExplorer\Engine;
+use Exception;
+use Engine;
+//load singleton resource
+use JFileExplorer\Engine\Traits\Singleton;
 /*
 Declare By      : Jafar Abdurrahman Albasyir
 Email           : jafarabdurrahmanal-basyir@hotmail.com
@@ -11,7 +13,7 @@ class Exe
 {
     //define trait
     //make singleton
-    use Engine\Traits\Singleton;
+    use Singleton;
     //=====>define variable
     private $Configuration      = null;
     //=====>define methode

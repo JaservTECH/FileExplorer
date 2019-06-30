@@ -1,8 +1,9 @@
 <?php
 namespace JFileExplorer\Engine;
 use JFileExplorer\Exception\FilesException;
+use JFileExplorer\Engine\Traits\Singleton;
 class Files {
-    use Traits\Singleton;
+    use Singleton;
     public function GetDetailFileUpload( $source = null )
     {
         if( is_null($source) ) throw new FilesException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Source belum dimasukan" ] ), 1);
