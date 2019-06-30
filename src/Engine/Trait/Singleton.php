@@ -1,5 +1,5 @@
 <?php
-namespace JFileExplorer;
+namespace JFileExplorer\Engine\Trait;
 
 /**
  * Singleton : make class available as singleton object
