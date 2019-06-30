@@ -1,6 +1,7 @@
 <?php
 namespace JFileExplorer;
 use Exception;
+use Engine;
 /*
 Declare By      : Jafar Abdurrahman Albasyir
 Email           : jafarabdurrahmanal-basyir@hotmail.com
@@ -60,8 +61,8 @@ class Exe
     private function CheckSession()
     {
         if( $this->Configuration->Directory->Space == "" ) return;
-        if( !is_string( $this->Configuration->Directory->Space ) ) throw new Exception\Space("You inserted space not as a string", 1);
-        if( $this->Configuration->Directory->Space[0] != "/" && $this->Configuration->Directory->Space[0] != "\\" ) throw new Exception\Space("your string name of space must have symbol '\\' or '/' as postfix on space name exp:'/spaceone' ", 1);
+        if( !is_string( $this->Configuration->Directory->Space ) ) throw new Exception\SpaceException("You inserted space not as a string", 1);
+        if( $this->Configuration->Directory->Space[0] != "/" && $this->Configuration->Directory->Space[0] != "\\" ) throw new Exception\SpaceException("your string name of space must have symbol '\\' or '/' as postfix on space name exp:'/spaceone' ", 1);
         
         if( !is_dir( $this->Configuration->Directory->Root.$this->Configuration->Directory->Space ) && !file_exists( $this->Configuration->Directory->Root.$this->Configuration->Directory->Space ) )
         {
@@ -72,16 +73,22 @@ class Exe
     public function AddFile( $path = null , $source , $overwrite = false )
     {  
         $target_dir = $this->Configuration->Directory->Root.$this->Configuration->Directory->Space.$path;
+        $File = null;
         try
         {
             $this->CheckSession();
+            $File = Engine\Files::Obj()->GetDetailFileUpload( $source );
         }
-        catch( Exception\Space $err )
+        catch( Exception\SpaceException $err )
         {
             //error on space
-           
+            return [];
         }
-       
+        catch( Exception\FilesException $err )
+        {
+            //error on space
+           return [];
+        }
         //uploading
        
 
