@@ -9,7 +9,7 @@ Declare By      : Jafar Abdurrahman Albasyir
 Email           : jafarabdurrahmanal-basyir@hotmail.com
 Description     : Main class to execute the whole system file
 */
-class Exe 
+class Exe
 {
     //define trait
     //make singleton
@@ -33,7 +33,7 @@ class Exe
         $this->Initial();
     }
 
-    
+
 
     private function Initial()
     {
@@ -46,9 +46,9 @@ class Exe
     public function Set( $target = null , $value = null )
     {
         //filter param
-        if( !is_string( $target ) ) 
+        if( !is_string( $target ) )
             return false;
-        if( !is_string( $value ) ) 
+        if( !is_string( $value ) )
             return false;
         //bussiness logic
         switch( $target )
@@ -65,7 +65,7 @@ class Exe
         if( $this->Configuration->Directory->Space == "" ) return;
         if( !is_string( $this->Configuration->Directory->Space ) ) throw new Exception\SpaceException("You inserted space not as a string", 1);
         if( $this->Configuration->Directory->Space[0] != "/" && $this->Configuration->Directory->Space[0] != "\\" ) throw new Exception\SpaceException("your string name of space must have symbol '\\' or '/' as postfix on space name exp:'/spaceone' ", 1);
-        
+
         if( !is_dir( $this->Configuration->Directory->Root.$this->Configuration->Directory->Space ) && !file_exists( $this->Configuration->Directory->Root.$this->Configuration->Directory->Space ) )
         {
             mkdir( $this->Configuration->Directory->Root.$this->Configuration->Directory->Space );
@@ -97,13 +97,30 @@ class Exe
         }
         return $configFinal;
     }
+    private function Return( $conf )
+    {
+        $finalConfig = (object)[
+            "bool" => true,
+            "message" => (object)[
+                "default" => "",
+                "throw" => ""
+            ],
+        ];
+        if( is_array( $conf ) )
+        {
+            if( array_key_exists( "bool" , $conf ) && is_bool( $conf[ "bool" ] ) )                  $finalConfig->bool = $conf[ "bool" ];
+            if( array_key_exists( "msgdefault" , $conf ) && is_string( $conf[ "msgdefault" ] ) )    $finalConfig->message->default = $conf[ "msgdefault" ];
+            if( array_key_exists( "msgthrow" , $conf ) && is_string( $conf[ "msgthrow" ] ) )        $finalConfig->message->default = $conf[ "msgthrow" ];
+        }
+        return $finalConfig;
+    }
     public function AddFile( $config ) //$path = null , $source , $name = null, $overwrite = false
-    {  
+    {
         //buiding config
         $config = $this->BuildConfigurationAddFile( $config );
         $target_dir = $this->Configuration->Directory->Root.$this->Configuration->Directory->Space.$config->path;
         $File = null;
-        
+
         try
         {
             $this->CheckSession();
@@ -120,31 +137,55 @@ class Exe
            return [];
         }
         //uploading
-       
-        $targetName = $File->name;
-        if( !is_null( $config->name ) )
+
+
+        try
         {
-            try
+            //check syncronize beetween type and format
+            $tempTypeMain = Engine\MimeType::Obj()->IsContainType( $File->name );
+            if( !Engine\MimeType::Obj()->IsMatchingTypeWithFormat( $File->type , $tempTypeMain ) )      return $this->Return( [ "bool" => false , "msgdefault" => "file yang anda masukan diduga script yang membahayakan, tidak diizinkan" ] );
+
+            $targetName = $File->name;
+            if( !is_null( $config->name ) )
             {
                 $tempType = Engine\MimeType::Obj()->IsContainType( $config->name );
                 if( $tempType )
+                {
+                    if( $tempType != $tempTypeMain )                                                    return $this->Return( [ "bool" => false , "msgdefault" => "untuk saat ini belum mendukung konversi ke format lain" ] );
                     $targetName = $config->name;
-                else{
-                    $tempType = Engine\MimeType::Obj()->GetTypeTranslateFormat( $File->type );
-                    if( $tempType )
-                        $targetName = $config->name.$tempType;
                 }
-            }
-            catch( MimeTypeException $err )
-            {
-                
+                else
+                    $targetName = $config->name.$tempTypeMain;
             }
         }
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        catch( MimeTypeException $err )
+        {
+
+        }
+        $tt = $tempTypeMain;
+        $target_file = $target_dir . $targetName;
+        //set flag as true for default
         $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+        try{
+            //is image
+            if( MimeType::Obj()->IsImageType( $File->type , $tempTypeMain , $File->tmp_name ) ){
+                //do something for image type
+
+            }
+
+
+
+        }
+        catch( MimeTypeException $err)
+        {
+
+        }
+
+
+
         // Check if image file is a actual image or fake image
-        if(isset($_POST["submit"])) 
+        if(isset($_POST["submit"]))
         {
             $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
             if($check !== false)
@@ -152,14 +193,14 @@ class Exe
                 echo "File is an image - " . $check["mime"] . ".";
                 $uploadOk = 1;
             }
-            else 
+            else
             {
                 echo "File is not an image.";
                 $uploadOk = 0;
             }
         }
         // Check if file already exists
-        if (file_exists($target_file)) 
+        if (file_exists($target_file))
         {
             echo "Sorry, file already exists.";
             $uploadOk = 0;
@@ -172,10 +213,10 @@ class Exe
         }
         // Allow certain file formats
         if(
-            $imageFileType != "jpg"     && 
-            $imageFileType != "png"     && 
-            $imageFileType != "jpeg"    && 
-            $imageFileType != "gif" 
+            $imageFileType != "jpg"     &&
+            $imageFileType != "png"     &&
+            $imageFileType != "jpeg"    &&
+            $imageFileType != "gif"
         )
         {
             echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";

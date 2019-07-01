@@ -16,5 +16,24 @@ class Files {
             $file->$key = \strtolower( $value );
         }
         return $file;
-    }     
+    }
+    public function FilterParamPathFile( $path = null )
+    {
+        if( is_null( $path ) )      throw new Exception("Path belum dimasukan", 1);
+        if( !is_string( $path ) )   throw new Exception("Path harus berupa string", 1);
+    }
+    public function IsReallyFile( $pathFile = null )
+    {
+        try{
+            $this->FilterParamPathFile( $pathFile );
+        }
+        catch( Exception $err )
+        {
+            throw new FilesException(json_encode( [ "callback" => __FUNCTION__ , "message" => $err->getMessage() ] ), 1);
+        }
+
+        if( !is_file( $path ) && !file_exists( $path ) )
+            return false;
+        return true;
+    }
 }

@@ -6,6 +6,7 @@ namespace JFileExplorer\Engine;
  */
 
 use JFileExplorer\Engine\Traits\Singleton;
+use JFileExplorer\Exception\FilesException;
 use JFileExplorer\Exception\MimeTypeException;
 class MimeType {
     //
@@ -89,8 +90,13 @@ class MimeType {
     }
     public function IsTypeInTheList( $type = null)
     {
-        if( is_null( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type belum dimasukan" ] ), 1);
-        if( !is_string( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type harus berupa string" ] ), 1);
+        try{
+            $this->FilterParamType( $type );
+        }
+        catch( Exception $err )
+        {
+            throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => $err->getMessage() ] ), 1);
+        }
         if( array_key_exists( $type , $this->library ) ) return true;
         foreach( $this->library as $value )
         {
@@ -101,10 +107,10 @@ class MimeType {
         return false;
     }
     /*
-        Function        : IsContainType 
+        Function        : IsContainType
         Description     :
         Input           : <string>
-        Output          : 
+        Output          :
         =>true              ::: Type file
         =>false             ::: false <boolean>
         =>param trouble     ::: Throw error
@@ -113,31 +119,84 @@ class MimeType {
     {
         if( is_null( $nameFile ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Nama file belum dimasukan" ] ), 1);
         if( !is_string( $nameFile ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Nama file harus berupa string" ] ), 1);
-        $temp = strtolower(pathinfo($nameFile,PATHINFO_EXTENSION));
-        
-        
-        $nameFile = explode(".", $nameFile);
-        if( \count($nameFile) < 2) return false;
-        return ".".$nameFile[\count($nameFile) - 1];
+
+        $format = strtolower(pathinfo($nameFile,PATHINFO_EXTENSION));
+        if( $format == "" || $format == " " ) return false;
+        return ".".$format;
     }
     public function GetTypeTranslateFormat( $type = null )
     {
-        if( is_null( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type belum dimasukan" ] ), 1);
-        if( !is_string( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type harus berupa string" ] ), 1);
+        try{
+            $this->FilterParamType( $type );
+        }
+        catch( Exception $err )
+        {
+            throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => $err->getMessage() ] ), 1);
+        }
         if( !array_key_exists( $type , $this->library ) ) return false;
         $cache = $this->library[ $type ];
         //return last index of format that type contain or have
-        return $cache[ \count($cache) -1 ]; 
+        return $cache[ \count($cache) -1 ];
     }
     public function IsMatchingTypeWithFormat( $type = null , $format = null )
     {
-        if( is_null( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type belum dimasukan" ] ), 1);
-        if( !is_string( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type harus berupa string" ] ), 1);
+        try{
+            $this->FilterParamType( $type );
+        }
+        catch( Exception $err )
+        {
+            throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => $err->getMessage() ] ), 1);
+        }
         if( !array_key_exists( $type , $this->library ) ) return false;
         foreach( $this->library[ $type ] as $target ){
             if( $target == $format ) return true;
         }
         return false;
+    }
+    private function FilterParamType( &$type = null )
+    {
+        if( is_null( $type ) )      throw new Exception("Type belum dimasukan", 1);
+        if( !is_string( $type ) )   throw new Exception("Type harus berupa string", 1);
+        $type = \strtolower( $type );
+    }
+    public function IsImageType( $type = null , $format = null , $pathFile = null )
+    {
+        try{
+            $this->FilterParamType( $type );
+        }
+        catch( Exception $err )
+        {
+            throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => $err->getMessage() ] ), 1);
+        }
+
+
+        if( !\strrpos( "image/" , $type ) ) return false;
+        if( !array_key_exists( $type , $this->library ) ) return false;
+        if( !is_null( $format ) )
+        {
+            try
+            {
+                if( !$this->IsMatchingTypeWithFormat( $type , $format ) ) return false;
+            }
+            catch( MimeTypeException $rr)
+            {
+                throw $err;
+            }
+        }
+        if( !is_null( $pathFile ) )
+        {
+            try
+            {
+                if( !Files::Obje()->IsReallyFile( $pathFile ) ) return false;
+                $check = \getimagesize( $pathFile );
+                if( $check === false ) return false;
+            }
+            catch( FilesException $err)
+            {
+                throw new MimeTypeException( $err->GetOnlyMessage(), 1);
+            }
+        }
+        return true;
     }
 }
 
