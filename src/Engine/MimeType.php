@@ -113,6 +113,9 @@ class MimeType {
     {
         if( is_null( $nameFile ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Nama file belum dimasukan" ] ), 1);
         if( !is_string( $nameFile ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Nama file harus berupa string" ] ), 1);
+        $temp = strtolower(pathinfo($nameFile,PATHINFO_EXTENSION));
+        
+        
         $nameFile = explode(".", $nameFile);
         if( \count($nameFile) < 2) return false;
         return ".".$nameFile[\count($nameFile) - 1];
