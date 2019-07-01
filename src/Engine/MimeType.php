@@ -5,7 +5,7 @@ namespace JFileExplorer\Engine;
  * Singleton : make class available as singleton object
  */
 
-namespace JFileExplorer\Engine\Traits\Singleton;
+use JFileExplorer\Engine\Traits\Singleton;
 use JFileExplorer\Exception\MimeTypeException;
 class MimeType {
     //
