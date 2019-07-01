@@ -124,13 +124,20 @@ class Exe
         $targetName = $File->name;
         if( !is_null( $config->name ) )
         {
-            $tempType = Engine\MimeType::Obj()->IsContainType( $config->name );
-            if( $tempType )
-                $targetName = $config->name;
-            else{
-                $tempType = Engine\MimeType::Obj()->GetTypeTranslateFormat( $File->type );
+            try
+            {
+                $tempType = Engine\MimeType::Obj()->IsContainType( $config->name );
                 if( $tempType )
-                    $targetName = $config->name.$tempType;
+                    $targetName = $config->name;
+                else{
+                    $tempType = Engine\MimeType::Obj()->GetTypeTranslateFormat( $File->type );
+                    if( $tempType )
+                        $targetName = $config->name.$tempType;
+                }
+            }
+            catch( MimeTypeException $err )
+            {
+                
             }
         }
         $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);

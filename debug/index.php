@@ -1,3 +1,11 @@
 <?php
 require_once __DIR__."/vendor/autoload.php";
-echo JFileExplorer\Exe::Obj()->AddFile( ["path"=>"/test/gggg" , "source"=>"file" , "overwrite"=>true] );
+$rest = JFileExplorer\Exe::Obj()->AddFile( [
+    "path"=>"/test/gggg" , 
+    "source"=>"file" , 
+    "overwrite"=>true,
+    "name"=>"nama baru",
+    "allowType"=>".mp4|.mkv|.3gp"
+] );
+
+var_dump($rest);

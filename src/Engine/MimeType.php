@@ -126,6 +126,16 @@ class MimeType {
         //return last index of format that type contain or have
         return $cache[ \count($cache) -1 ]; 
     }
+    public function IsMatchingTypeWithFormat( $type = null , $format = null )
+    {
+        if( is_null( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type belum dimasukan" ] ), 1);
+        if( !is_string( $type ) ) throw new MimeTypeException(json_encode( [ "callback" => __FUNCTION__ , "message" => "Type harus berupa string" ] ), 1);
+        if( !array_key_exists( $type , $this->library ) ) return false;
+        foreach( $this->library[ $type ] as $target ){
+            if( $target == $format ) return true;
+        }
+        return false;
+    }
 }
 
 ?>
